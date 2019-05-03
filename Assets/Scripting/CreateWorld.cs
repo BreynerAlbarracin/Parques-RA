@@ -1,0 +1,343 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System;
+using UnityEngine;
+
+public class CreateWorld : MonoBehaviour {
+
+    // The board have a distribution according to next estructure
+    // 1. Blue x+ z+
+    // 2. Red x- z+
+    // 3. Green x- z-
+    // 4. Yellow x+ z-
+    /*
+      2 | 1
+    ----|----
+      3 | 4
+    */
+
+    // Debug mode
+    public bool debug = false;
+
+    //Amount nodes in each houses
+    string[] colors = new string[] { "Blue", "Red", "Green", "Yellow" };
+    int cantStais = 7;
+    int cantCurve = 8;
+    int cantAsc = 5;
+    int cantDes = 4;
+
+    // Position by fixed elements
+    Vector3 handsP = new Vector3(10.7f, 9.8f, 10.65f);
+    Vector3 witcherP = new Vector3(7.1f, 5.8f, 7.1f);
+    Vector3 prisonP = new Vector3(8.95f, 5.13f, 8.6f);
+    Vector3 crownP = new Vector3(3.8f, 9.22f, 0f);
+    Vector3 start = new Vector3(11.8f, 1.5f, 0f);
+
+    // Reference to mesh nodes
+    NodeMesh nodemesh;
+
+    // Defauld Log Debug.Log("CreateWorld.");
+
+    // Use this for initialization
+    void Start() {
+        Debug.Log("Find Board");
+        nodemesh = GameObject.Find("Board").GetComponent<NodeMesh>();
+
+        Debug.Log("Creation fixed objects");
+        createFixedPosition();
+        createPrisons();
+        createCrowns();
+        createNodes();
+
+        if (debug) {
+            Debug.Log("Run debug task");
+            createDebugView();
+        }
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    // This method create a fixed positions
+    void createFixedPosition() {
+        Debug.Log("Creating hands and witchers nodes");
+        nodemesh.hands = createMirrorVectors(handsP);
+        nodemesh.witchers = createMirrorVectors(witcherP);
+    }
+
+    // This method create a prison positions
+    void createPrisons() {
+        Debug.Log("Creating prisons nodes");
+        Vector3[] vectors = createMirrorVectors(prisonP);
+        Node[] prisons = new Node[4];
+
+        prisons[0] = new Node(vectors[0], null, null, colors[0], false, false);
+        prisons[1] = new Node(vectors[1], null, null, colors[1], false, false);
+        prisons[2] = new Node(vectors[2], null, null, colors[2], false, false);
+        prisons[3] = new Node(vectors[3], null, null, colors[3], false, false);
+
+        nodemesh.prisons = prisons;
+    }
+
+    // This method create a crowns positions
+    void createCrowns() {
+        Debug.Log("Creating crowns nodes");
+        Vector3[] vectors = createMirrorVectors(prisonP);
+        Node[] crowns = new Node[4];
+
+        crowns[0] = new Node(vectors[0], null, null, colors[0], false, false);
+        crowns[1] = new Node(vectors[1], null, null, colors[1], false, false);
+        crowns[2] = new Node(vectors[2], null, null, colors[2], false, false);
+        crowns[3] = new Node(vectors[3], null, null, colors[3], false, false);
+
+        nodemesh.crowns = crowns;
+
+    }
+
+    // This methid create a board nodes
+    void createNodes() {
+        Debug.Log("Creating boards nodes");
+        Vector3[] vectors = createRotationVector(start);
+
+        Node rootBlue = new Node(vectors[0], null, null, colors[0], true, false);
+        Node rootRed = new Node(vectors[1], null, null, colors[1], true, false);
+        Node rootGreen = new Node(vectors[2], null, null, colors[2], true, false);
+        Node rootYellow = new Node(vectors[3], null, null, colors[3], true, false);
+
+        nodemesh.rootNodes = rootBlue;
+
+        Node nodeB = rootBlue;
+        Node nodeR = rootRed;
+        Node nodeG = rootGreen;
+        Node nodeY = rootYellow;
+
+        Debug.Log("Creating ladder from root nodes");
+        vectors[0].z = vectors[0].z + 3.95f;
+        vectors = createRotationVector(vectors[0]);
+
+        for (int i = 0; i < 4; i++) {
+            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), null, null, colors[3], false, false);
+
+            nodeB.nextNode = nodeBT;
+            nodeR.nextNode = nodeRT;
+            nodeG.nextNode = nodeGT;
+            nodeY.nextNode = nodeYT;
+
+            nodeB = nodeBT;
+            nodeR = nodeRT;
+            nodeG = nodeGT;
+            nodeY = nodeYT;
+        }
+
+        Debug.Log("Creating curve nodes from ladder");
+        vectors = createRotationVector(new Vector3(nodeB.position.x - 1, nodeB.position.y + 1, nodeB.position.z));
+
+        float spaceXCurve = 3.9f / 7;
+        float spaceZCurve = 3.85f / 7;
+        float angule = 90;
+        float factor = 0;
+
+        for (int i = 0; i < 8; i++) {
+            Node nodeBT = new Node(new Vector3(vectors[0].x - ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[0].y, vectors[0].z + ((spaceZCurve * i) - (spaceZCurve * factor))), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x - ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[1].y, vectors[1].z - ((spaceZCurve * i) + (spaceZCurve * factor))), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[2].y, vectors[2].z - ((spaceZCurve * i) - (spaceZCurve * factor))), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), null, null, colors[3], false, false);
+
+            if (i < 3) {
+                factor += 0.361f;
+            } else if (i >= 4) {
+                factor -= 0.361f;
+            }
+
+            nodeB.nextNode = nodeBT;
+            nodeR.nextNode = nodeRT;
+            nodeG.nextNode = nodeGT;
+            nodeY.nextNode = nodeYT;
+
+            nodeB = nodeBT;
+            nodeR = nodeRT;
+            nodeG = nodeGT;
+            nodeY = nodeYT;
+        }
+
+        Debug.Log("Creating ladders nodes from curve");
+        vectors = createRotationVector(new Vector3(nodeB.position.x, nodeB.position.y - 1, nodeB.position.z + 1));
+
+        for (int i = 0; i < 4; i++) {
+            Node nodeBT = new Node(new Vector3(vectors[0].x, vectors[0].y - i, vectors[0].z + i), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x - i, vectors[1].y - i, vectors[1].z), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x, vectors[2].y - i, vectors[2].z - i), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x + i, vectors[3].y - i, vectors[3].z), null, null, colors[3], false, false);
+
+            nodeB.nextNode = nodeBT;
+            nodeR.nextNode = nodeRT;
+            nodeG.nextNode = nodeGT;
+            nodeY.nextNode = nodeYT;
+
+            nodeB = nodeBT;
+            nodeR = nodeRT;
+            nodeG = nodeGT;
+            nodeY = nodeYT;
+        }
+
+        Debug.Log("Creating staircase to the crowns");
+        nodeB.nextNode = rootRed;
+        nodeR.nextNode = rootGreen;
+        nodeG.nextNode = rootYellow;
+        nodeY.nextNode = rootBlue;
+
+        vectors = createRotationVector(new Vector3(start.x - 1, start.y + 1, start.z));
+
+        for (int i = 0; i < 7; i++) {
+            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), null, null, colors[3], false, false);
+
+            if (i == 0) {
+                rootBlue.extraNode = nodeBT;
+                rootRed.extraNode = nodeRT;
+                rootGreen.extraNode = nodeGT;
+                rootYellow.extraNode = nodeYT;
+
+                nodeB = rootBlue.extraNode;
+                nodeR = rootRed.extraNode;
+                nodeG = rootGreen.extraNode;
+                nodeY = rootYellow.extraNode;
+            } else {
+                nodeB.nextNode = nodeBT;
+                nodeR.nextNode = nodeRT;
+                nodeG.nextNode = nodeGT;
+                nodeY.nextNode = nodeYT;
+
+                nodeB = nodeBT;
+                nodeR = nodeRT;
+                nodeG = nodeGT;
+                nodeY = nodeYT;
+            }
+        }
+    }
+
+    // This method return array of vectors with the mirror vectors using the same Y
+    Vector3[] createMirrorVectors(Vector3 vector) {
+        Vector3[] vectors = new Vector3[4];
+
+        vectors[0] = new Vector3(vector.x, vector.y, vector.z);
+        vectors[1] = new Vector3(vector.x * -1, vector.y, vector.z);
+        vectors[2] = new Vector3(vector.x * -1, vector.y, vector.z * -1);
+        vectors[3] = new Vector3(vector.x, vector.y, vector.z * -1);
+
+        return vectors;
+    }
+
+    // This method return array of vectors with the position in the four quadrant like a mirror
+    Vector3[] createRotationVector(Vector3 vector) {
+        Vector3[] vectors = new Vector3[4];
+
+        vectors[0] = new Vector3(vector.x, vector.y, vector.z);
+        vectors[1] = new Vector3(vector.z * -1, vector.y, vector.x);
+        vectors[2] = new Vector3(vector.x * -1, vector.y, vector.z * -1);
+        vectors[3] = new Vector3(vector.z, vector.y, vector.x * -1);
+
+        return vectors;
+    }
+
+    // This method contains debug tasks only executable if debug is True
+    void createDebugView() {
+        Debug.Log("DEBUG PROJECT MODE ON, EXECUTING DEBUG TASK");
+
+        GameObject.Find("MallaTest").SetActive(false);
+        GameObject.Find("Terrain").SetActive(false);
+
+        GameObject camera = GameObject.Find("Camera");
+        camera.transform.position = new Vector3(0f, 30f, 0);
+        camera.transform.Rotate(new Vector3(90f, 0f, 0f));
+
+        GameObject debugMesh = new GameObject();
+        debugMesh.name = "DebugMesh";
+
+        Debug.Log("Creation fixed objects");
+
+        for (int i = 0; i < 4; i++) {
+            GameObject hand = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            hand.name = "Hands-" + colors[i];
+            hand.transform.localPosition = nodemesh.hands[i];
+
+            GameObject witcher = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            witcher.name = "Witcher-" + colors[i];
+            witcher.transform.localPosition = nodemesh.witchers[i];
+
+            GameObject prison = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            prison.name = "Prison-" + colors[i];
+            prison.transform.localPosition = nodemesh.prisons[i].position;
+            prison.transform.localScale = new Vector3(0, 0, 0);
+
+            GameObject crown = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            crown.name = "Crown-" + colors[i];
+            crown.transform.localPosition = nodemesh.crowns[i].position;
+            crown.transform.localScale = new Vector3(0, 0, 0);
+
+            hand.transform.SetParent(debugMesh.transform);
+            witcher.transform.SetParent(debugMesh.transform);
+            prison.transform.SetParent(debugMesh.transform);
+            crown.transform.SetParent(debugMesh.transform);
+        }
+
+        Node node = nodemesh.rootNodes;
+
+        int cont = 0;
+
+        while (true) {
+            bool finish = false;
+
+            if (nodemesh.isLap(node.nextNode)) {
+                finish = true;
+            }
+
+            GameObject nodeGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            nodeGO.name = "Node: " + node.color + cont;
+            nodeGO.transform.localPosition = node.position;
+            nodeGO.transform.SetParent(debugMesh.transform);
+
+            if (node.extraNode != null) {
+                Node extra = node.extraNode;
+
+                while (true) {
+                    bool finish2 = false;
+
+                    if (extra.nextNode == null) {
+                        finish2 = true;
+                    }
+
+                    GameObject nodeGOEX = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    nodeGOEX.name = "NodeExtra: " + extra.color + "-" + cont;
+                    nodeGOEX.transform.localPosition = extra.position;
+                    nodeGOEX.transform.SetParent(debugMesh.transform);
+                    extra = extra.nextNode;
+
+                    if (finish2) {
+                        break;
+                    }
+                }
+            }
+
+            node = node.nextNode;
+            cont++;
+
+            if (finish) {
+                break;
+            }
+        }
+
+        Debug.Log(nodemesh.report());
+    }
+
+}
+
+
+

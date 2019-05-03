@@ -1,0 +1,180 @@
+fileFormatVersion: 2
+guid: a8bec9c174f315b4ea8b07e1c8ba6f44
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Camino
+    100002: Camino.001
+    100004: Camino.002
+    100006: Camino.003
+    100008: Carcel
+    100010: Carcel.001
+    100012: Carcel.002
+    100014: Carcel.003
+    100016: Centro
+    100018: Cylinder
+    100020: Escalera
+    100022: Escalera.001
+    100024: Escalera.002
+    100026: Escalera.003
+    100028: EspPersonaje
+    100030: EspPersonaje.001
+    100032: EspPersonaje.002
+    100034: EspPersonaje.003
+    100036: //RootNode
+    400000: Camino
+    400002: Camino.001
+    400004: Camino.002
+    400006: Camino.003
+    400008: Carcel
+    400010: Carcel.001
+    400012: Carcel.002
+    400014: Carcel.003
+    400016: Centro
+    400018: Cylinder
+    400020: Escalera
+    400022: Escalera.001
+    400024: Escalera.002
+    400026: Escalera.003
+    400028: EspPersonaje
+    400030: EspPersonaje.001
+    400032: EspPersonaje.002
+    400034: EspPersonaje.003
+    400036: //RootNode
+    2100000: No Name
+    2300000: Camino
+    2300002: Camino.001
+    2300004: Camino.002
+    2300006: Camino.003
+    2300008: Carcel
+    2300010: Carcel.001
+    2300012: Carcel.002
+    2300014: Carcel.003
+    2300016: Centro
+    2300018: Cylinder
+    2300020: Escalera
+    2300022: Escalera.001
+    2300024: Escalera.002
+    2300026: Escalera.003
+    2300028: EspPersonaje
+    2300030: EspPersonaje.001
+    2300032: EspPersonaje.002
+    2300034: EspPersonaje.003
+    3300000: Camino
+    3300002: Camino.001
+    3300004: Camino.002
+    3300006: Camino.003
+    3300008: Carcel
+    3300010: Carcel.001
+    3300012: Carcel.002
+    3300014: Carcel.003
+    3300016: Centro
+    3300018: Cylinder
+    3300020: Escalera
+    3300022: Escalera.001
+    3300024: Escalera.002
+    3300026: Escalera.003
+    3300028: EspPersonaje
+    3300030: EspPersonaje.001
+    3300032: EspPersonaje.002
+    3300034: EspPersonaje.003
+    4300000: Centro
+    4300002: EspPersonaje
+    4300004: Camino
+    4300006: Cylinder
+    4300008: Escalera
+    4300010: Carcel
+    4300012: Camino.001
+    4300014: Carcel.001
+    4300016: Escalera.001
+    4300018: EspPersonaje.001
+    4300020: Camino.002
+    4300022: Carcel.002
+    4300024: Escalera.002
+    4300026: EspPersonaje.002
+    4300028: Camino.003
+    4300030: Carcel.003
+    4300032: Escalera.003
+    4300034: EspPersonaje.003
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
