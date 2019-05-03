@@ -150,9 +150,9 @@ public class CreateWorld : MonoBehaviour {
             Node nodeYT = new Node(new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (0 + i * angule), 0f), null, null, colors[3], false, false);
 
             if (i < 3) {
-                factor += 0.361f;
+                factor += 0.7f;
             } else if (i >= 4) {
-                factor -= 0.361f;
+                factor -= 0.7f;
             }
 
             nodeB.nextNode = nodeBT;
@@ -269,7 +269,7 @@ public class CreateWorld : MonoBehaviour {
         Debug.Log("Creating empty GameObject nodes and extranodes position");
         Node node = nodemesh.rootNodes;
 
-        int cont = 0;
+        int cont = 1;
         while (true) {
             bool finish = false;
             if (nodemesh.isLap(node.nextNode)) {
