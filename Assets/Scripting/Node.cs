@@ -41,7 +41,7 @@ public class Node {
 
         int pos = 1;
         foreach (GameObject token in tokens) {
-            token.transform.localPosition = new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0);
+            token.transform.Translate(new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0));
             pos++;
         }
     }
@@ -55,7 +55,7 @@ public class Node {
 
         int pos = 0;
         foreach (GameObject token in tokens) {
-            token.transform.localPosition = positionsPrison[pos];
+            token.transform.Translate(positionsPrison[pos]);
             pos++;
         }
     }
