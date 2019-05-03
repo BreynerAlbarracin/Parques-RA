@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Node {
     public Vector3 position;
+    public Vector3 rotation;
     public Node nextNode;
     public Node extraNode;
     public List<GameObject> tokens;
@@ -15,8 +16,9 @@ public class Node {
     public float widthNode = 0.6f;
     public float heightToken = 12f;
 
-    public Node(Vector3 position, Node nextNode, Node extraNode, string color, bool secure, bool exit) {
+    public Node(Vector3 position, Vector3 rotation, Node nextNode, Node extraNode, string color, bool secure, bool exit) {
         this.position = position;
+        this.rotation = rotation;
         this.nextNode = nextNode;
         this.extraNode = extraNode;
         tokens = new List<GameObject>();
@@ -25,11 +27,11 @@ public class Node {
         this.exit = exit;
     }
 
-    public void attachNode(Node node){
+    public void attachNode(Node node) {
         this.nextNode = node;
     }
 
-    public void attachExtraNode(Node node){
+    public void attachExtraNode(Node node) {
         this.extraNode = node;
     }
 

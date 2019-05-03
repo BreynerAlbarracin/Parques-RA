@@ -48,6 +48,7 @@ public class CreateWorld : MonoBehaviour {
         createPrisons();
         createCrowns();
         createNodes();
+        createGameObjectsNode();
 
         if (debug) {
             Debug.Log("Run debug task");
@@ -73,10 +74,10 @@ public class CreateWorld : MonoBehaviour {
         Vector3[] vectors = createMirrorVectors(prisonP);
         Node[] prisons = new Node[4];
 
-        prisons[0] = new Node(vectors[0], null, null, colors[0], false, false);
-        prisons[1] = new Node(vectors[1], null, null, colors[1], false, false);
-        prisons[2] = new Node(vectors[2], null, null, colors[2], false, false);
-        prisons[3] = new Node(vectors[3], null, null, colors[3], false, false);
+        prisons[0] = new Node(vectors[0], new Vector3(0f, -135f, 0), null, null, colors[0], false, false);
+        prisons[1] = new Node(vectors[1], new Vector3(0f, 135f, 0), null, null, colors[1], false, false);
+        prisons[2] = new Node(vectors[2], new Vector3(0f, 45f, 0), null, null, colors[2], false, false);
+        prisons[3] = new Node(vectors[3], new Vector3(0f, -45f, 0), null, null, colors[3], false, false);
 
         nodemesh.prisons = prisons;
     }
@@ -87,10 +88,10 @@ public class CreateWorld : MonoBehaviour {
         Vector3[] vectors = createMirrorVectors(prisonP);
         Node[] crowns = new Node[4];
 
-        crowns[0] = new Node(vectors[0], null, null, colors[0], false, false);
-        crowns[1] = new Node(vectors[1], null, null, colors[1], false, false);
-        crowns[2] = new Node(vectors[2], null, null, colors[2], false, false);
-        crowns[3] = new Node(vectors[3], null, null, colors[3], false, false);
+        crowns[0] = new Node(vectors[0], new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
+        crowns[1] = new Node(vectors[1], new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
+        crowns[2] = new Node(vectors[2], new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
+        crowns[3] = new Node(vectors[3], new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
 
         nodemesh.crowns = crowns;
 
@@ -101,10 +102,10 @@ public class CreateWorld : MonoBehaviour {
         Debug.Log("Creating boards nodes");
         Vector3[] vectors = createRotationVector(start);
 
-        Node rootBlue = new Node(vectors[0], null, null, colors[0], true, false);
-        Node rootRed = new Node(vectors[1], null, null, colors[1], true, false);
-        Node rootGreen = new Node(vectors[2], null, null, colors[2], true, false);
-        Node rootYellow = new Node(vectors[3], null, null, colors[3], true, false);
+        Node rootBlue = new Node(vectors[0], new Vector3(0f, -90f, 0f), null, null, colors[0], true, false);
+        Node rootRed = new Node(vectors[1], new Vector3(0f, 180f, 0f), null, null, colors[1], true, false);
+        Node rootGreen = new Node(vectors[2], new Vector3(0f, 90f, 0f), null, null, colors[2], true, false);
+        Node rootYellow = new Node(vectors[3], new Vector3(0f, 0f, 0f), null, null, colors[3], true, false);
 
         nodemesh.rootNodes = rootBlue;
 
@@ -118,10 +119,10 @@ public class CreateWorld : MonoBehaviour {
         vectors = createRotationVector(vectors[0]);
 
         for (int i = 0; i < 4; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), null, null, colors[3], false, false);
+            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
 
             nodeB.nextNode = nodeBT;
             nodeR.nextNode = nodeRT;
@@ -139,14 +140,14 @@ public class CreateWorld : MonoBehaviour {
 
         float spaceXCurve = 3.9f / 7;
         float spaceZCurve = 3.85f / 7;
-        float angule = 90;
+        float angule = 90 / 8;
         float factor = 0;
 
         for (int i = 0; i < 8; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[0].y, vectors[0].z + ((spaceZCurve * i) - (spaceZCurve * factor))), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x - ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[1].y, vectors[1].z - ((spaceZCurve * i) + (spaceZCurve * factor))), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[2].y, vectors[2].z - ((spaceZCurve * i) - (spaceZCurve * factor))), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), null, null, colors[3], false, false);
+            Node nodeBT = new Node(new Vector3(vectors[0].x - ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[0].y, vectors[0].z + ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (-90 + i * angule), 0f), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x - ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[1].y, vectors[1].z - ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (-180 + i * angule), 0f), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[2].y, vectors[2].z - ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (90 + i * angule), 0f), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (0 + i * angule), 0f), null, null, colors[3], false, false);
 
             if (i < 3) {
                 factor += 0.361f;
@@ -169,10 +170,10 @@ public class CreateWorld : MonoBehaviour {
         vectors = createRotationVector(new Vector3(nodeB.position.x, nodeB.position.y - 1, nodeB.position.z + 1));
 
         for (int i = 0; i < 4; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x, vectors[0].y - i, vectors[0].z + i), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x - i, vectors[1].y - i, vectors[1].z), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x, vectors[2].y - i, vectors[2].z - i), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x + i, vectors[3].y - i, vectors[3].z), null, null, colors[3], false, false);
+            Node nodeBT = new Node(new Vector3(vectors[0].x, vectors[0].y - i, vectors[0].z + i), new Vector3(0f, 0f, 0f), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x - i, vectors[1].y - i, vectors[1].z), new Vector3(0f, 270f, 0f), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x, vectors[2].y - i, vectors[2].z - i), new Vector3(0f, 180f, 0f), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x + i, vectors[3].y - i, vectors[3].z), new Vector3(0f, 90f, 0f), null, null, colors[3], false, false);
 
             nodeB.nextNode = nodeBT;
             nodeR.nextNode = nodeRT;
@@ -194,10 +195,10 @@ public class CreateWorld : MonoBehaviour {
         vectors = createRotationVector(new Vector3(start.x - 1, start.y + 1, start.z));
 
         for (int i = 0; i < 7; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), null, null, colors[3], false, false);
+            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
+            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
+            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
+            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
 
             if (i == 0) {
                 rootBlue.extraNode = nodeBT;
@@ -247,11 +248,72 @@ public class CreateWorld : MonoBehaviour {
         return vectors;
     }
 
+    // This method create empty GameObjects in the nodes positions
+    void createGameObjectsNode() {
+        Debug.Log("Creating empty GameObjects according to nodes");
+
+        GameObject nodes = new GameObject();
+        nodes.name = "Nodes";
+        nodes.transform.SetParent(GameObject.Find("Board").transform);
+
+        float angule = 225;
+        Debug.Log("Creating fixed nodes (Hands and Witchers)");
+        for (int i = 0; i < 4; i++) {
+            GameObject hand = createEGO("Hands-" + colors[i], nodemesh.hands[i], new Vector3(0, angule, 0), nodes.transform);
+            GameObject witcher = createEGO("Witcher-" + colors[i], nodemesh.witchers[i], new Vector3(0, angule, 0), nodes.transform);
+            GameObject prison = createEGO("Prison-" + colors[i], nodemesh.prisons[i].position, new Vector3(0, angule, 0), nodes.transform);
+            GameObject crown = createEGO("Crown-" + colors[i], nodemesh.crowns[i].position, new Vector3(0, angule, 0), nodes.transform);
+            angule -= 90;
+        }
+
+        Debug.Log("Creating empty GameObject nodes and extranodes position");
+        Node node = nodemesh.rootNodes;
+
+        int cont = 0;
+        while (true) {
+            bool finish = false;
+            if (nodemesh.isLap(node.nextNode)) {
+                finish = true;
+            }
+            GameObject nodeGO = createEGO("Node: " + node.color + cont, node.position, node.rotation, nodes.transform);
+            if (node.extraNode != null) {
+                Node extra = node.extraNode;
+                while (true) {
+                    bool finish2 = false;
+                    if (extra.nextNode == null) {
+                        finish2 = true;
+                    }
+                    GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + cont, extra.position, extra.rotation, nodes.transform);
+                    extra = extra.nextNode;
+                    if (finish2) {
+                        break;
+                    }
+                }
+            }
+            node = node.nextNode;
+            cont++;
+            if (finish) {
+                break;
+            }
+        }
+    }
+
+    // This methos allow create a empty GameObject
+    GameObject createEGO(string name, Vector3 position, Vector3 rotation, Transform parent) {
+        GameObject gObject = new GameObject();
+        gObject.name = name;
+        gObject.transform.SetParent(parent);
+        gObject.transform.Translate(position);
+        gObject.transform.Rotate(rotation);
+
+        return gObject;
+    }
+
     // This method contains debug tasks only executable if debug is True
     void createDebugView() {
         Debug.Log("DEBUG PROJECT MODE ON, EXECUTING DEBUG TASK");
 
-        GameObject.Find("MallaTest").SetActive(false);
+        GameObject.Find("MallaTestVisual").SetActive(false);
         GameObject.Find("Terrain").SetActive(false);
 
         GameObject camera = GameObject.Find("Camera");
@@ -260,78 +322,17 @@ public class CreateWorld : MonoBehaviour {
 
         GameObject debugMesh = new GameObject();
         debugMesh.name = "DebugMesh";
+        debugMesh.transform.SetParent(GameObject.Find("Root").transform);
 
-        Debug.Log("Creation fixed objects");
+        Debug.Log("Creation debug fixed objects");
 
-        for (int i = 0; i < 4; i++) {
-            GameObject hand = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            hand.name = "Hands-" + colors[i];
-            hand.transform.localPosition = nodemesh.hands[i];
-
-            GameObject witcher = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            witcher.name = "Witcher-" + colors[i];
-            witcher.transform.localPosition = nodemesh.witchers[i];
-
-            GameObject prison = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            prison.name = "Prison-" + colors[i];
-            prison.transform.localPosition = nodemesh.prisons[i].position;
-            prison.transform.localScale = new Vector3(0, 0, 0);
-
-            GameObject crown = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            crown.name = "Crown-" + colors[i];
-            crown.transform.localPosition = nodemesh.crowns[i].position;
-            crown.transform.localScale = new Vector3(0, 0, 0);
-
-            hand.transform.SetParent(debugMesh.transform);
-            witcher.transform.SetParent(debugMesh.transform);
-            prison.transform.SetParent(debugMesh.transform);
-            crown.transform.SetParent(debugMesh.transform);
-        }
-
-        Node node = nodemesh.rootNodes;
-
-        int cont = 0;
-
-        while (true) {
-            bool finish = false;
-
-            if (nodemesh.isLap(node.nextNode)) {
-                finish = true;
-            }
-
-            GameObject nodeGO = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            nodeGO.name = "Node: " + node.color + cont;
-            nodeGO.transform.localPosition = node.position;
-            nodeGO.transform.SetParent(debugMesh.transform);
-
-            if (node.extraNode != null) {
-                Node extra = node.extraNode;
-
-                while (true) {
-                    bool finish2 = false;
-
-                    if (extra.nextNode == null) {
-                        finish2 = true;
-                    }
-
-                    GameObject nodeGOEX = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    nodeGOEX.name = "NodeExtra: " + extra.color + "-" + cont;
-                    nodeGOEX.transform.localPosition = extra.position;
-                    nodeGOEX.transform.SetParent(debugMesh.transform);
-                    extra = extra.nextNode;
-
-                    if (finish2) {
-                        break;
-                    }
-                }
-            }
-
-            node = node.nextNode;
-            cont++;
-
-            if (finish) {
-                break;
-            }
+        foreach (Transform child in GameObject.Find("Nodes").transform) {
+            GameObject debugOBJ = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            debugOBJ.transform.SetParent(child);
+            debugOBJ.name = "debugBox";
+            debugOBJ.transform.localPosition = new Vector3(0, 0, 0);
+            debugOBJ.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            debugOBJ.transform.localScale = new Vector3(3.95f, 0.04f, 0.97f);
         }
 
         Debug.Log(nodemesh.report());
