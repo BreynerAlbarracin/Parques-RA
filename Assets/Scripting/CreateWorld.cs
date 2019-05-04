@@ -49,6 +49,7 @@ public class CreateWorld : MonoBehaviour {
         createCrowns();
         createNodes();
         createGameObjectsNode();
+        createTokens();
 
         if (debug) {
             Debug.Log("Run debug task");
@@ -94,7 +95,6 @@ public class CreateWorld : MonoBehaviour {
         crowns[3] = new Node(vectors[3], new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
 
         nodemesh.crowns = crowns;
-
     }
 
     // This methid create a board nodes
@@ -133,6 +133,7 @@ public class CreateWorld : MonoBehaviour {
             nodeR = nodeRT;
             nodeG = nodeGT;
             nodeY = nodeYT;
+            Debug.Log(i);
         }
 
         Debug.Log("Creating curve nodes from ladder");
@@ -164,6 +165,8 @@ public class CreateWorld : MonoBehaviour {
             nodeR = nodeRT;
             nodeG = nodeGT;
             nodeY = nodeYT;
+
+            Debug.Log(i);
         }
 
         Debug.Log("Creating ladders nodes from curve");
@@ -184,6 +187,8 @@ public class CreateWorld : MonoBehaviour {
             nodeR = nodeRT;
             nodeG = nodeGT;
             nodeY = nodeYT;
+
+            Debug.Log(i);
         }
 
         Debug.Log("Creating staircase to the crowns");
@@ -221,6 +226,8 @@ public class CreateWorld : MonoBehaviour {
                 nodeG = nodeGT;
                 nodeY = nodeYT;
             }
+
+            Debug.Log(i);
         }
     }
 
@@ -252,9 +259,7 @@ public class CreateWorld : MonoBehaviour {
     void createGameObjectsNode() {
         Debug.Log("Creating empty GameObjects according to nodes");
 
-        GameObject nodes = new GameObject();
-        nodes.name = "Nodes";
-        nodes.transform.SetParent(GameObject.Find("Board").transform);
+        GameObject nodes = GameObject.Find("Nodes");
 
         float angule = 225;
         Debug.Log("Creating fixed nodes (Hands and Witchers)");
@@ -264,26 +269,29 @@ public class CreateWorld : MonoBehaviour {
             GameObject prison = createEGO("Prison-" + colors[i], nodemesh.prisons[i].position, new Vector3(0, angule, 0), nodes.transform);
             GameObject crown = createEGO("Crown-" + colors[i], nodemesh.crowns[i].position, new Vector3(0, angule, 0), nodes.transform);
             angule -= 90;
+
+            Debug.Log(i);
         }
 
         Debug.Log("Creating empty GameObject nodes and extranodes position");
         Node node = nodemesh.rootNodes;
 
-        int cont = 1;
+        int count = 1;
         while (true) {
             bool finish = false;
             if (nodemesh.isLap(node.nextNode)) {
                 finish = true;
             }
-            GameObject nodeGO = createEGO("Node: " + node.color + cont, node.position, node.rotation, nodes.transform);
+            GameObject nodeGO = createEGO("Node: " + node.color + count, node.position, node.rotation, nodes.transform);
             if (node.extraNode != null) {
+                Debug.Log("Creating Extra Nodes");
                 Node extra = node.extraNode;
                 while (true) {
                     bool finish2 = false;
                     if (extra.nextNode == null) {
                         finish2 = true;
                     }
-                    GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + cont, extra.position, extra.rotation, nodes.transform);
+                    GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + count, extra.position, extra.rotation, nodes.transform);
                     extra = extra.nextNode;
                     if (finish2) {
                         break;
@@ -291,8 +299,10 @@ public class CreateWorld : MonoBehaviour {
                 }
             }
             node = node.nextNode;
-            cont++;
+            count++;
+            Debug.Log(count);
             if (finish) {
+                Debug.Log("Stopping method to create EGB");
                 break;
             }
         }
@@ -305,9 +315,57 @@ public class CreateWorld : MonoBehaviour {
         gObject.transform.SetParent(parent);
         gObject.transform.Translate(position);
         gObject.transform.Rotate(rotation);
+        gObject.AddComponent(typeof(Node));
 
         return gObject;
     }
+
+    void createTokens() {
+        Debug.Log("Creating tokens");
+        GameObject prisonB = GameObject.Find("Prison-Blue");
+        GameObject prisonR = GameObject.Find("Prison-Red");
+        GameObject prisonG = GameObject.Find("Prison-Green");
+        GameObject prisonY = GameObject.Find("Prison-Yellow");
+
+        for (int i = 0; i < 4; i++) {
+            GameObject tokenB = createToken(colors[0] + (i + 1), prisonB.GetComponent<Node>(), colors[0], "", prisonB.transform);
+            GameObject tokenR = createToken(colors[1] + (i + 1), prisonR.GetComponent<Node>(), colors[1], "", prisonR.transform);
+            GameObject tokenG = createToken(colors[2] + (i + 1), prisonG.GetComponent<Node>(), colors[2], "", prisonG.transform);
+            GameObject tokenY = createToken(colors[3] + (i + 1), prisonY.GetComponent<Node>(), colors[3], "", prisonY.transform);
+
+            Debug.Log(i);
+        }
+    }
+
+    GameObject createToken(string name, Node node, string color, string model, Transform parent) {
+        GameObject token = new GameObject();
+        token.name = name;
+        token.AddComponent(typeof(Token));
+
+        Token data = token.GetComponent<Token>();
+        data.color = color;
+        // data.nodeAttach = node;
+        data.model = model;
+
+        token.transform.SetParent(parent);
+        token.transform.Rotate(new Vector3());
+        token.transform.Translate(new Vector3());
+
+        return token;
+    }
+
+
+
+
+    /* 
+    --------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------
+    ---------------------------------DEBUG ZONE-------------------------------------------------
+    --------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------
+    --------------------------------------------------------------------------------------------
+    */
 
     // This method contains debug tasks only executable if debug is True
     void createDebugView() {
