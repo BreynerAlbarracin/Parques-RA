@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node {
+public class Node : MonoBehaviour {
     public Vector3 position;
     public Vector3 rotation;
-    public Node nextNode;
-    public Node extraNode;
+    public GameObject nextNode;
+    public GameObject extraNode;
     public List<GameObject> tokens;
     public string color;
     public bool secure;
@@ -16,23 +16,49 @@ public class Node {
     public float widthNode = 0.6f;
     public float heightToken = 12f;
 
-    public Node(Vector3 position, Vector3 rotation, Node nextNode, Node extraNode, string color, bool secure, bool exit) {
-        this.position = position;
-        this.rotation = rotation;
-        this.nextNode = nextNode;
-        this.extraNode = extraNode;
-        tokens = new List<GameObject>();
-        this.color = color;
-        this.secure = secure;
-        this.exit = exit;
-    }
-
-    public void attachNode(Node node) {
+    public void attachNode(GameObject node) {
         this.nextNode = node;
     }
 
-    public void attachExtraNode(Node node) {
+    public void attachExtraNode(GameObject node) {
         this.extraNode = node;
+    }
+
+    public void setRotation(Vector3 rotation) {
+        this.rotation = rotation;
+        this.transform.Rotate(rotation);
+    }
+
+    public Quaternion gerRotation(){
+        return this.transform.rotation;
+    }
+
+    public void setTranslation(Vector3 translation) {
+        this.position = translation;
+        this.transform.Translate(position);
+    }
+    public Vector3 getPosition(){
+        return this.transform.position;
+    }
+
+    public void setColor(string color) {
+        this.color = color;
+    }
+
+    public void setSecure(bool secure) {
+        this.secure = secure;
+    }
+
+    public void setExit(bool exit) {
+        this.exit = exit;
+    }
+
+    public GameObject next() {
+        return nextNode;
+    }
+
+    public GameObject extraNext() {
+        return extraNode;
     }
 
     public void organizeTokens() {

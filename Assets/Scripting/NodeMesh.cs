@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class NodeMesh : MonoBehaviour {
 
-    public Node rootNodes;
-    public Node[] prisons;
-    public Node[] crowns;
-    public Vector3[] hands;
-    public Vector3[] witchers;
+    public GameObject rootNodes;
+    public GameObject[] hands;
+    public GameObject[] prisons;
+    public GameObject[] witchers;
+    public GameObject[] crowns;
 
-    public bool isLap(Node node) {
+    public bool isLap(GameObject node) {
         if (rootNodes == node) {
             return true;
         } else {
@@ -20,11 +20,11 @@ public class NodeMesh : MonoBehaviour {
 
     public int contNodes() {
         int count = 1;
-        Node node = rootNodes;
+        GameObject node = rootNodes;
 
-        while (!isLap(node.nextNode)) {
+        while (!isLap(node.GetComponent<Node>().next())) {
             count++;
-            node = node.nextNode;
+            node = node.GetComponent<Node>().next();
         }
 
         return count;
@@ -32,25 +32,25 @@ public class NodeMesh : MonoBehaviour {
 
     public int contExtraNodes() {
         int count = 0;
-        Node node = rootNodes;
+        GameObject node = rootNodes;
 
-        while (!isLap(node.nextNode)) {
-            if (node.extraNode != null) {
-                Node extra = node.extraNode;
+        while (!isLap(node)) {
+            if (node.GetComponent<Node>().extraNext() != null) {
+                GameObject extra = node.GetComponent<Node>().extraNext();
 
-                while (true) {
+                while (!(extra == null)) {
                     count++;
-                    extra = extra.nextNode;
-                    if (extra.nextNode == null) {
-                        count++;
-                        break;
-                    }
+                    extra = extra.GetComponent<Node>().extraNext();
                 }
             }
-            node = node.nextNode;
+            node = node.GetComponent<Node>().extraNext();
         }
 
         return count;
+    }
+
+    public void setRoot(GameObject root) {
+        this.rootNodes = root;
     }
 
     public string report() {

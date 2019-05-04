@@ -35,6 +35,7 @@ public class CreateWorld : MonoBehaviour {
 
     // Reference to mesh nodes
     NodeMesh nodemesh;
+    Transform nodes;
 
     // Defauld Log Debug.Log("CreateWorld.");
 
@@ -42,13 +43,15 @@ public class CreateWorld : MonoBehaviour {
     void Start() {
         Debug.Log("Find Board");
         nodemesh = GameObject.Find("Board").GetComponent<NodeMesh>();
+        nodes = GameObject.Find("Nodes").transform;
 
-        Debug.Log("Creation fixed objects");
-        createFixedPosition();
+        Debug.Log("Creating objects");
+        createHands();
         createPrisons();
+        createWitchers();
         createCrowns();
         createNodes();
-        createGameObjectsNode();
+        // createGameObjectsNode();
         // createTokens();
 
         if (debug) {
@@ -62,72 +65,93 @@ public class CreateWorld : MonoBehaviour {
 
     }
 
-    // This method create a fixed positions
-    void createFixedPosition() {
-        Debug.Log("Creating hands and witchers nodes");
-        nodemesh.hands = createMirrorVectors(handsP);
-        nodemesh.witchers = createMirrorVectors(witcherP);
+    void createHands() {
+        Debug.Log("Creating hands nodes");
+        Vector3[] vectors = createMirrorVectors(handsP);
+        GameObject[] hands = new GameObject[4];
+
+        hands[0] = createEGO("HandsBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, nodes);
+        hands[1] = createEGO("HandsRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, nodes);
+        hands[2] = createEGO("HandsGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, nodes);
+        hands[3] = createEGO("HandsYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, nodes);
+
+        nodemesh.crowns = hands;
     }
 
     // This method create a prison positions
     void createPrisons() {
         Debug.Log("Creating prisons nodes");
         Vector3[] vectors = createMirrorVectors(prisonP);
-        Node[] prisons = new Node[4];
+        GameObject[] prisons = new GameObject[4];
 
-        prisons[0] = new Node(vectors[0], new Vector3(0f, -135f, 0), null, null, colors[0], false, false);
-        prisons[1] = new Node(vectors[1], new Vector3(0f, 135f, 0), null, null, colors[1], false, false);
-        prisons[2] = new Node(vectors[2], new Vector3(0f, 45f, 0), null, null, colors[2], false, false);
-        prisons[3] = new Node(vectors[3], new Vector3(0f, -45f, 0), null, null, colors[3], false, false);
+        prisons[0] = createEGO("PrisonBlue", vectors[0], new Vector3(0f, 225f, 0), colors[0], false, false, nodes);
+        prisons[1] = createEGO("PrisonRed", vectors[1], new Vector3(0f, 135f, 0), colors[1], false, false, nodes);
+        prisons[2] = createEGO("PrisonGreen", vectors[2], new Vector3(0f, 45f, 0), colors[2], false, false, nodes);
+        prisons[3] = createEGO("PrisonYellow", vectors[3], new Vector3(0f, 315f, 0), colors[3], false, false, nodes);
 
         nodemesh.prisons = prisons;
+    }
+
+    void createWitchers() {
+        Debug.Log("Creating witchers nodes");
+        Vector3[] vectors = createMirrorVectors(witcherP);
+        GameObject[] witchers = new GameObject[4];
+
+        witchers[0] = createEGO("WitcherBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, nodes);
+        witchers[1] = createEGO("WitcherRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, nodes);
+        witchers[2] = createEGO("WitcherGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, nodes);
+        witchers[3] = createEGO("WitcherYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, nodes);
+
+        nodemesh.crowns = witchers;
     }
 
     // This method create a crowns positions
     void createCrowns() {
         Debug.Log("Creating crowns nodes");
-        Vector3[] vectors = createMirrorVectors(prisonP);
-        Node[] crowns = new Node[4];
+        Vector3[] vectors = createRotationVector(crownP);
+        GameObject[] crowns = new GameObject[4];
 
-        crowns[0] = new Node(vectors[0], new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
-        crowns[1] = new Node(vectors[1], new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
-        crowns[2] = new Node(vectors[2], new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
-        crowns[3] = new Node(vectors[3], new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
+        crowns[0] = createEGO("CrownBlue", vectors[0], new Vector3(0f, 270f, 0f), colors[0], false, false, nodes);
+        crowns[1] = createEGO("CrownRed", vectors[1], new Vector3(0f, 180f, 0f), colors[1], false, false, nodes);
+        crowns[2] = createEGO("CrownGreen", vectors[2], new Vector3(0f, 90f, 0f), colors[2], false, false, nodes);
+        crowns[3] = createEGO("CrownYellow", vectors[3], new Vector3(0f, 0f, 0f), colors[3], false, false, nodes);
 
         nodemesh.crowns = crowns;
     }
+
 
     // This methid create a board nodes
     void createNodes() {
         Debug.Log("Creating boards nodes");
         Vector3[] vectors = createRotationVector(start);
+        Transform nodes = GameObject.Find("Nodes").transform;
 
-        Node rootBlue = new Node(vectors[0], new Vector3(0f, -90f, 0f), null, null, colors[0], true, false);
-        Node rootRed = new Node(vectors[1], new Vector3(0f, 180f, 0f), null, null, colors[1], true, false);
-        Node rootGreen = new Node(vectors[2], new Vector3(0f, 90f, 0f), null, null, colors[2], true, false);
-        Node rootYellow = new Node(vectors[3], new Vector3(0f, 0f, 0f), null, null, colors[3], true, false);
+        GameObject rootBlue = createEGO("RootBlue", vectors[0], new Vector3(0f, -90f, 0f), colors[0], true, true, nodes);
+        GameObject rootRed = createEGO("RootRed", vectors[1], new Vector3(0f, 180f, 0f), colors[1], true, true, nodes);
+        GameObject rootGreen = createEGO("RootGreen", vectors[2], new Vector3(0f, 90f, 0f), colors[2], true, true, nodes);
+        GameObject rootYellow = createEGO("RootYellow", vectors[3], new Vector3(0f, 0f, 0f), colors[3], true, true, nodes);
 
-        nodemesh.rootNodes = rootBlue;
+        nodemesh.setRoot(rootBlue);
 
-        Node nodeB = rootBlue;
-        Node nodeR = rootRed;
-        Node nodeG = rootGreen;
-        Node nodeY = rootYellow;
+        GameObject nodeB = rootBlue;
+        GameObject nodeR = rootRed;
+        GameObject nodeG = rootGreen;
+        GameObject nodeY = rootYellow;
 
         Debug.Log("Creating ladder from root nodes");
         vectors[0].z = vectors[0].z + 3.95f;
         vectors = createRotationVector(vectors[0]);
 
         for (int i = 0; i < 4; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
+            GameObject nodeBT = createEGO("LadderBlue-" + i, new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), colors[0], false, false, nodes);
+            GameObject nodeRT = createEGO("LadderRed-" + i, new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), colors[1], false, false, nodes);
+            GameObject nodeGT = createEGO("LadderGreen-" + i, new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), colors[2], false, false, nodes);
+            GameObject nodeYT = createEGO("LadderYellow-" + i, new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), colors[3], false, false, nodes);
 
-            nodeB.nextNode = nodeBT;
-            nodeR.nextNode = nodeRT;
-            nodeG.nextNode = nodeGT;
-            nodeY.nextNode = nodeYT;
+            nodeB.GetComponent<Node>().attachNode(nodeBT);
+            nodeR.GetComponent<Node>().attachNode(nodeRT);
+            nodeG.GetComponent<Node>().attachNode(nodeGT);
+            nodeY.GetComponent<Node>().attachNode(nodeYT);
 
             nodeB = nodeBT;
             nodeR = nodeRT;
@@ -137,7 +161,7 @@ public class CreateWorld : MonoBehaviour {
         }
 
         Debug.Log("Creating curve nodes from ladder");
-        vectors = createRotationVector(new Vector3(nodeB.position.x - 1, nodeB.position.y + 1, nodeB.position.z));
+        vectors = createRotationVector(new Vector3(nodeB.GetComponent<Node>().getPosition().x - 1, nodeB.GetComponent<Node>().getPosition().y + 1, nodeB.GetComponent<Node>().getPosition().z));
 
         float spaceXCurve = 3.9f / 7;
         float spaceZCurve = 3.85f / 7;
@@ -145,10 +169,10 @@ public class CreateWorld : MonoBehaviour {
         float factor = 0;
 
         for (int i = 0; i < 8; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[0].y, vectors[0].z + ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (-90 + i * angule), 0f), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x - ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[1].y, vectors[1].z - ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (-180 + i * angule), 0f), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[2].y, vectors[2].z - ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (90 + i * angule), 0f), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (0 + i * angule), 0f), null, null, colors[3], false, false);
+            GameObject nodeBT = createEGO("CurveBlue-" + i, new Vector3(vectors[0].x - ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[0].y, vectors[0].z + ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (-90 + i * angule), 0f), colors[0], false, false, nodes);
+            GameObject nodeRT = createEGO("CurveRed-" + i, new Vector3(vectors[1].x - ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[1].y, vectors[1].z - ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (-180 + i * angule), 0f), colors[1], false, false, nodes);
+            GameObject nodeGT = createEGO("CurveGreen-" + i, new Vector3(vectors[2].x + ((spaceXCurve * i) + (spaceXCurve * factor)), vectors[2].y, vectors[2].z - ((spaceZCurve * i) - (spaceZCurve * factor))), new Vector3(0f, (90 + i * angule), 0f), colors[2], false, false, nodes);
+            GameObject nodeYT = createEGO("CurveYellow-" + i, new Vector3(vectors[3].x + ((spaceXCurve * i) - (spaceXCurve * factor)), vectors[3].y, vectors[3].z + ((spaceZCurve * i) + (spaceZCurve * factor))), new Vector3(0f, (0 + i * angule), 0f), colors[3], false, false, nodes);
 
             if (i < 3) {
                 factor += 0.7f;
@@ -156,10 +180,10 @@ public class CreateWorld : MonoBehaviour {
                 factor -= 0.7f;
             }
 
-            nodeB.nextNode = nodeBT;
-            nodeR.nextNode = nodeRT;
-            nodeG.nextNode = nodeGT;
-            nodeY.nextNode = nodeYT;
+            nodeB.GetComponent<Node>().attachNode(nodeBT);
+            nodeR.GetComponent<Node>().attachNode(nodeRT);
+            nodeG.GetComponent<Node>().attachNode(nodeGT);
+            nodeY.GetComponent<Node>().attachNode(nodeYT);
 
             nodeB = nodeBT;
             nodeR = nodeRT;
@@ -170,18 +194,18 @@ public class CreateWorld : MonoBehaviour {
         }
 
         Debug.Log("Creating ladders nodes from curve");
-        vectors = createRotationVector(new Vector3(nodeB.position.x, nodeB.position.y - 1, nodeB.position.z + 1));
+        vectors = createRotationVector(new Vector3(nodeB.GetComponent<Node>().getPosition().x, nodeB.GetComponent<Node>().getPosition().y - 1, nodeB.GetComponent<Node>().getPosition().z + 1));
 
         for (int i = 0; i < 4; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x, vectors[0].y - i, vectors[0].z + i), new Vector3(0f, 0f, 0f), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x - i, vectors[1].y - i, vectors[1].z), new Vector3(0f, 270f, 0f), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x, vectors[2].y - i, vectors[2].z - i), new Vector3(0f, 180f, 0f), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x + i, vectors[3].y - i, vectors[3].z), new Vector3(0f, 90f, 0f), null, null, colors[3], false, false);
+            GameObject nodeBT = createEGO("LaddersBlue-" + i, new Vector3(vectors[0].x, vectors[0].y - i, vectors[0].z + i), new Vector3(0f, 0f, 0f), colors[0], false, false, nodes);
+            GameObject nodeRT = createEGO("LaddersRed-" + i, new Vector3(vectors[1].x - i, vectors[1].y - i, vectors[1].z), new Vector3(0f, 270f, 0f), colors[1], false, false, nodes);
+            GameObject nodeGT = createEGO("LaddersGreen-" + i, new Vector3(vectors[2].x, vectors[2].y - i, vectors[2].z - i), new Vector3(0f, 180f, 0f), colors[2], false, false, nodes);
+            GameObject nodeYT = createEGO("LaddersYellow-" + i, new Vector3(vectors[3].x + i, vectors[3].y - i, vectors[3].z), new Vector3(0f, 90f, 0f), colors[3], false, false, nodes);
 
-            nodeB.nextNode = nodeBT;
-            nodeR.nextNode = nodeRT;
-            nodeG.nextNode = nodeGT;
-            nodeY.nextNode = nodeYT;
+            nodeB.GetComponent<Node>().attachNode(nodeBT);
+            nodeR.GetComponent<Node>().attachNode(nodeRT);
+            nodeG.GetComponent<Node>().attachNode(nodeGT);
+            nodeY.GetComponent<Node>().attachNode(nodeYT);
 
             nodeB = nodeBT;
             nodeR = nodeRT;
@@ -192,34 +216,34 @@ public class CreateWorld : MonoBehaviour {
         }
 
         Debug.Log("Creating staircase to the crowns");
-        nodeB.nextNode = rootRed;
-        nodeR.nextNode = rootGreen;
-        nodeG.nextNode = rootYellow;
-        nodeY.nextNode = rootBlue;
+        nodeB.GetComponent<Node>().attachNode(rootRed);
+        nodeR.GetComponent<Node>().attachNode(rootGreen);
+        nodeG.GetComponent<Node>().attachNode(rootYellow);
+        nodeY.GetComponent<Node>().attachNode(rootBlue);
 
         vectors = createRotationVector(new Vector3(start.x - 1, start.y + 1, start.z));
 
         for (int i = 0; i < 7; i++) {
-            Node nodeBT = new Node(new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), null, null, colors[0], false, false);
-            Node nodeRT = new Node(new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), null, null, colors[1], false, false);
-            Node nodeGT = new Node(new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), null, null, colors[2], false, false);
-            Node nodeYT = new Node(new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), null, null, colors[3], false, false);
+            GameObject nodeBT = createEGO("StaircaseBlue-" + i, new Vector3(vectors[0].x - i, vectors[0].y + i, vectors[0].z), new Vector3(0f, -90f, 0f), colors[0], false, false, nodes);
+            GameObject nodeRT = createEGO("StaircaseRed-" + i, new Vector3(vectors[1].x, vectors[1].y + i, vectors[1].z - i), new Vector3(0f, 180f, 0f), colors[1], false, false, nodes);
+            GameObject nodeGT = createEGO("StaircaseGreen-" + i, new Vector3(vectors[2].x + i, vectors[2].y + i, vectors[2].z), new Vector3(0f, 90f, 0f), colors[2], false, false, nodes);
+            GameObject nodeYT = createEGO("StaircaseYellow-" + i, new Vector3(vectors[3].x, vectors[3].y + i, vectors[3].z + i), new Vector3(0f, 0f, 0f), colors[3], false, false, nodes);
 
             if (i == 0) {
-                rootBlue.extraNode = nodeBT;
-                rootRed.extraNode = nodeRT;
-                rootGreen.extraNode = nodeGT;
-                rootYellow.extraNode = nodeYT;
+                rootBlue.GetComponent<Node>().attachExtraNode(nodeBT);
+                rootRed.GetComponent<Node>().attachExtraNode(nodeRT);
+                rootGreen.GetComponent<Node>().attachExtraNode(nodeGT);
+                rootYellow.GetComponent<Node>().attachExtraNode(nodeYT);
 
-                nodeB = rootBlue.extraNode;
-                nodeR = rootRed.extraNode;
-                nodeG = rootGreen.extraNode;
-                nodeY = rootYellow.extraNode;
+                nodeB = rootBlue.GetComponent<Node>().extraNext();
+                nodeR = rootRed.GetComponent<Node>().extraNext();
+                nodeG = rootGreen.GetComponent<Node>().extraNext();
+                nodeY = rootYellow.GetComponent<Node>().extraNext();
             } else {
-                nodeB.nextNode = nodeBT;
-                nodeR.nextNode = nodeRT;
-                nodeG.nextNode = nodeGT;
-                nodeY.nextNode = nodeYT;
+                nodeB.GetComponent<Node>().attachNode(nodeBT);
+                nodeR.GetComponent<Node>().attachNode(nodeRT);
+                nodeG.GetComponent<Node>().attachNode(nodeGT);
+                nodeY.GetComponent<Node>().attachNode(nodeYT);
 
                 nodeB = nodeBT;
                 nodeR = nodeRT;
@@ -229,6 +253,8 @@ public class CreateWorld : MonoBehaviour {
 
             Debug.Log(i);
         }
+
+        Debug.Log(nodemesh.report());
     }
 
     // This method return array of vectors with the mirror vectors using the same Y
@@ -255,67 +281,71 @@ public class CreateWorld : MonoBehaviour {
         return vectors;
     }
 
-    // This method create empty GameObjects in the nodes positions
-    void createGameObjectsNode() {
-        Debug.Log("Creating empty GameObjects according to nodes");
+    // // This method create empty GameObjects in the nodes positions
+    // void createGameObjectsNode() {
+    //     Debug.Log("Creating empty GameObjects according to nodes");
 
-        GameObject nodes = GameObject.Find("Nodes");
+    //     float angule = 225;
+    //     Debug.Log("Creating fixed nodes (Hands and Witchers)");
+    //     for (int i = 0; i < 4; i++) {
+    //         GameObject hand = createEGO("Hands-" + colors[i], nodemesh.hands[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[0], false, false, nodes);
+    //         GameObject witcher = createEGO("Witcher-" + colors[i], nodemesh.witchers[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[1], false, false, nodes);
+    //         GameObject prison = createEGO("Prison-" + colors[i], nodemesh.prisons[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[2], false, false, nodes);
+    //         GameObject crown = createEGO("Crown-" + colors[i], nodemesh.crowns[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[3], false, false, nodes);
+    //         angule -= 90;
 
-        float angule = 225;
-        Debug.Log("Creating fixed nodes (Hands and Witchers)");
-        for (int i = 0; i < 4; i++) {
-            GameObject hand = createEGO("Hands-" + colors[i], nodemesh.hands[i], new Vector3(0, angule, 0), nodes.transform);
-            GameObject witcher = createEGO("Witcher-" + colors[i], nodemesh.witchers[i], new Vector3(0, angule, 0), nodes.transform);
-            GameObject prison = createEGO("Prison-" + colors[i], nodemesh.prisons[i].position, new Vector3(0, angule, 0), nodes.transform);
-            GameObject crown = createEGO("Crown-" + colors[i], nodemesh.crowns[i].position, new Vector3(0, angule, 0), nodes.transform);
-            angule -= 90;
+    //         Debug.Log(i);
+    //     }
 
-            Debug.Log(i);
-        }
+    //     Debug.Log("Creating empty GameObject nodes and extranodes position");
+    //     GameObject node = nodemesh.rootNodes;
 
-        Debug.Log("Creating empty GameObject nodes and extranodes position");
-        Node node = nodemesh.rootNodes;
-
-        int count = 1;
-        while (true) {
-            bool finish = false;
-            if (nodemesh.isLap(node.nextNode)) {
-                finish = true;
-            }
-            GameObject nodeGO = createEGO("Node: " + node.color + count, node.position, node.rotation, nodes.transform);
-            if (node.extraNode != null) {
-                Debug.Log("Creating Extra Nodes");
-                Node extra = node.extraNode;
-                while (true) {
-                    bool finish2 = false;
-                    if (extra.nextNode == null) {
-                        finish2 = true;
-                    }
-                    GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + count, extra.position, extra.rotation, nodes.transform);
-                    extra = extra.nextNode;
-                    if (finish2) {
-                        break;
-                    }
-                }
-            }
-            node = node.nextNode;
-            count++;
-            Debug.Log(count);
-            if (finish) {
-                Debug.Log("Stopping method to create EGB");
-                break;
-            }
-        }
-    }
+    //     int count = 1;
+    //     while (true) {
+    //         bool finish = false;
+    //         if (nodemesh.isLap(node.nextNode)) {
+    //             finish = true;
+    //         }
+    //         GameObject nodeGO = createEGO("Node: " + node.color + count, node.position, node.rotation, nodes.transform);
+    //         if (node.extraNode != null) {
+    //             Debug.Log("Creating Extra Nodes");
+    //             Node extra = node.extraNode;
+    //             while (true) {
+    //                 bool finish2 = false;
+    //                 if (extra.nextNode == null) {
+    //                     finish2 = true;
+    //                 }
+    //                 GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + count, extra.position, extra.rotation, nodes.transform);
+    //                 extra = extra.nextNode;
+    //                 if (finish2) {
+    //                     break;
+    //                 }
+    //             }
+    //         }
+    //         node = node.nextNode;
+    //         count++;
+    //         Debug.Log(count);
+    //         if (finish) {
+    //             Debug.Log("Stopping method to create EGB");
+    //             break;
+    //         }
+    //     }
+    // }
 
     // This methos allow create a empty GameObject
-    GameObject createEGO(string name, Vector3 position, Vector3 rotation, Transform parent) {
+    GameObject createEGO(string name, Vector3 position, Vector3 rotation, string color, bool secure, bool exit, Transform parent) {
         GameObject gObject = new GameObject();
-        gObject.name = name;
         gObject.transform.SetParent(parent);
-        gObject.transform.Translate(position);
-        gObject.transform.Rotate(rotation);
-        gObject.AddComponent(typeof(Node));
+        gObject.name = name;
+
+        gObject.AddComponent<Node>();
+        Node data = gObject.GetComponent<Node>();
+
+        data.setTranslation(position);
+        data.setRotation(rotation);
+        data.setColor(color);
+        data.setSecure(secure);
+        data.setExit(exit);
 
         return gObject;
     }
@@ -392,8 +422,6 @@ public class CreateWorld : MonoBehaviour {
             debugOBJ.transform.localRotation = new Quaternion(0, 0, 0, 0);
             debugOBJ.transform.localScale = new Vector3(3.95f, 0.04f, 0.97f);
         }
-
-        Debug.Log(nodemesh.report());
     }
 
 }
