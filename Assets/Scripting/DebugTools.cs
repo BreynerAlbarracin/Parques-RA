@@ -5,17 +5,18 @@ using UnityEngine;
 public class DebugTools : MonoBehaviour {
 
     public bool DebugMode;
+    bool debugged;
 
     // Use this for initialization
     void Start() {
-        if (DebugMode) {
-            createDebugView();
-        }
+        debugged = false;
     }
 
     // Update is called once per frame
     void Update() {
-
+        if (!debugged) {
+            createDebugView();
+        }
     }
 
     void createDebugView() {
@@ -31,6 +32,7 @@ public class DebugTools : MonoBehaviour {
         Debug.Log("Creation debug fixed objects");
 
         foreach (Transform child in GameObject.Find("Nodes").transform) {
+            debugged = true;
             GameObject debugOBJ = GameObject.CreatePrimitive(PrimitiveType.Cube);
             debugOBJ.transform.SetParent(child);
             debugOBJ.name = "debugBox";
