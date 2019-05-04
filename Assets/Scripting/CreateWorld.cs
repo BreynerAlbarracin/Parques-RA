@@ -49,7 +49,7 @@ public class CreateWorld : MonoBehaviour {
         createCrowns();
         createNodes();
         createGameObjectsNode();
-        createTokens();
+        // createTokens();
 
         if (debug) {
             Debug.Log("Run debug task");

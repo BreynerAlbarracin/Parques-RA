@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Node : MonoBehaviour {
+public class Node {
     public Vector3 position;
     public Vector3 rotation;
     public Node nextNode;
