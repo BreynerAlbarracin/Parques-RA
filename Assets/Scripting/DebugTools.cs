@@ -1,0 +1,43 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class DebugTools : MonoBehaviour {
+
+    public bool DebugMode;
+
+    // Use this for initialization
+    void Start() {
+        if (DebugMode) {
+            createDebugView();
+        }
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
+
+    void createDebugView() {
+        Debug.Log("DEBUG PROJECT MODE ON, EXECUTING DEBUG TASK");
+
+        GameObject.Find("MallaTestVisual").SetActive(false);
+        GameObject.Find("Terrain").SetActive(false);
+
+        GameObject camera = GameObject.Find("Camera");
+        camera.transform.position = new Vector3(0f, 30f, 0);
+        camera.transform.Rotate(new Vector3(90f, 0f, 0f));
+
+        Debug.Log("Creation debug fixed objects");
+
+        foreach (Transform child in GameObject.Find("Nodes").transform) {
+            GameObject debugOBJ = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            debugOBJ.transform.SetParent(child);
+            debugOBJ.name = "debugBox";
+            debugOBJ.transform.localPosition = new Vector3(0, 0, 0);
+            debugOBJ.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            debugOBJ.transform.localScale = new Vector3(3.95f, 0.04f, 0.97f);
+        }
+    }
+
+}
