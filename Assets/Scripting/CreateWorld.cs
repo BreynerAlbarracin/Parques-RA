@@ -22,7 +22,7 @@ public class CreateWorld : MonoBehaviour {
     // Position by fixed elements
     Vector3 handsP = new Vector3(10.7f, 9.8f, 10.65f);
     Vector3 witcherP = new Vector3(7.1f, 5.8f, 7.1f);
-    Vector3 prisonP = new Vector3(8.95f, 5.13f, 8.6f);
+    Vector3 prisonP = new Vector3(9f, 5.13f, 8.76f);
     Vector3 crownP = new Vector3(3.8f, 9.22f, 0f);
     Vector3 start = new Vector3(11.8f, 1.5f, 0f);
 
@@ -42,7 +42,7 @@ public class CreateWorld : MonoBehaviour {
         createWitchers();
         createCrowns();
         createNodes();
-        // createTokens();
+        createTokens();
     }
 
     // Update is called once per frame
@@ -67,7 +67,7 @@ public class CreateWorld : MonoBehaviour {
     // This method create a prison positions
     void createPrisons() {
         Debug.Log("Creating prisons nodes");
-        Vector3[] vectors = createMirrorVectors(prisonP);
+        Vector3[] vectors = createRotationVector(prisonP);
         GameObject[] prisons = new GameObject[4];
 
         prisons[0] = createEGO("PrisonBlue", vectors[0], new Vector3(0f, 225f, 0), colors[0], false, false, nodes);
@@ -294,29 +294,33 @@ public class CreateWorld : MonoBehaviour {
         GameObject prisonY = GameObject.Find("PrisonYellow");
 
         for (int i = 0; i < 4; i++) {
-            GameObject tokenB = createToken(colors[0] + (i + 1), prisonB.GetComponent<Node>(), colors[0], "", prisonB.transform);
-            GameObject tokenR = createToken(colors[1] + (i + 1), prisonR.GetComponent<Node>(), colors[1], "", prisonR.transform);
-            GameObject tokenG = createToken(colors[2] + (i + 1), prisonG.GetComponent<Node>(), colors[2], "", prisonG.transform);
-            GameObject tokenY = createToken(colors[3] + (i + 1), prisonY.GetComponent<Node>(), colors[3], "", prisonY.transform);
-
+            GameObject tokenB = createToken("Token" + colors[0] + (i + 1), prisonB.GetComponent<Node>(), colors[0], "", prisonB.transform);
+            prisonB.GetComponent<Node>().addPrisonToken(tokenB);
+            GameObject tokenR = createToken("Token" + colors[1] + (i + 1), prisonR.GetComponent<Node>(), colors[1], "", prisonR.transform);
+            prisonR.GetComponent<Node>().addPrisonToken(tokenR);
+            GameObject tokenG = createToken("Token" + colors[2] + (i + 1), prisonG.GetComponent<Node>(), colors[2], "", prisonG.transform);
+            prisonG.GetComponent<Node>().addPrisonToken(tokenG);
+            GameObject tokenY = createToken("Token" + colors[3] + (i + 1), prisonY.GetComponent<Node>(), colors[3], "", prisonY.transform);
+            prisonY.GetComponent<Node>().addPrisonToken(tokenY);
             Debug.Log(i);
         }
     }
 
     // This method create a token to play
     GameObject createToken(string name, Node node, string color, string model, Transform parent) {
-        GameObject token = new GameObject();
-        token.name = name;
-        token.AddComponent(typeof(Token));
-
-        Token data = token.GetComponent<Token>();
-        data.color = color;
-        // data.nodeAttach = node;
-        data.model = model;
-
+        GameObject token = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         token.transform.SetParent(parent);
         token.transform.Rotate(new Vector3());
         token.transform.Translate(new Vector3());
+        token.transform.localScale = new Vector3(0.53f, 0.53f, 0.53f);
+        token.name = name;
+        token.GetComponent<Renderer>().material.color = Color.black;
+
+        token.AddComponent(typeof(Token));
+        Token data = token.GetComponent<Token>();
+
+        data.color = color;
+        data.model = model;
 
         return token;
     }
