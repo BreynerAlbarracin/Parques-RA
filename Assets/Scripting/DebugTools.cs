@@ -23,7 +23,6 @@ public class DebugTools : MonoBehaviour {
         Debug.Log("DEBUG PROJECT MODE ON, EXECUTING DEBUG TASK");
 
         GameObject.Find("MallaTestVisual").SetActive(false);
-        GameObject.Find("Terrain").SetActive(false);
 
         GameObject camera = GameObject.Find("Camera");
         camera.transform.position = new Vector3(0f, 30f, 0);
