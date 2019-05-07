@@ -77,12 +77,11 @@ public class Node : MonoBehaviour {
     }
 
     public void organizeTokens() {
-        int cantToken = tokens.Count;
-        float space = widthNode / (cantToken + 1);
+        float space = widthNode / (tokens.Count + 1);
 
         int pos = 1;
         foreach (GameObject token in tokens) {
-            token.transform.Translate(new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0));
+            token.transform.localPosition = new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0);
             pos++;
         }
     }
