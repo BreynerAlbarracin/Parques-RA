@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class ControlPlayers : MonoBehaviour {
 
-	/*
+    /*
 		The players need control the token using their hands, however, we would use a keyinput to manager
 		 game, after, the game input will be swap Leap Motion
 	 */
 
-	/*
+    /*
 		The user have 7 controlles:
 		1 Change token onward
 		2 Change token backward
@@ -26,7 +26,7 @@ public class ControlPlayers : MonoBehaviour {
 		3 e
 		4 q
 		5 w
-		6 s
+		6 s - Lanzar Datos
 		7 z
 
 		Player 2
@@ -35,17 +35,21 @@ public class ControlPlayers : MonoBehaviour {
 		3 o
 		4 u
 		5 i
-		6 k
+		6 k - Lanzar Datos
 		7 m
 	*/
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start() {
 
-	}
+    }
+
+    // Update is called once per frame
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.S)) {
+            Debug.Log("Input S Down");
+            GameObject.Find("Dice1").GetComponent<Dice>().throwDice();
+            GameObject.Find("Dice2").GetComponent<Dice>().throwDice();
+        }
+    }
 }
