@@ -25,8 +25,8 @@ public class DebugTools : MonoBehaviour {
         GameObject.Find("MallaTestVisual").SetActive(false);
 
         GameObject camera = GameObject.Find("Camera");
-        camera.transform.position = new Vector3(0f, 30f, 0);
-        camera.transform.Rotate(new Vector3(90f, 0f, 0f));
+        camera.transform.position = new Vector3(-15f, 27.9f, -10);
+        camera.transform.Rotate(new Vector3(59f, 60f, 0f));
 
         Debug.Log("Creation debug fixed objects");
 
