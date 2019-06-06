@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Inicio.unity
+    guid: c67917f46c23adc41ab6508310ac7e2d
+  - enabled: 1
+    path: Assets/Scenes/Parques.unity
+    guid: 05891217c5ff3e94c9ea34304af802d6
+  - enabled: 1
+    path: Assets/Scenes/Opciones.unity
+    guid: 1e19c46073e673642927657d67a9fab6
+  - enabled: 1
+    path: Assets/Scenes/Instrucciones.unity
+    guid: faede1bb2eddaef4aa2b0d4e6c9e5b0d
   m_configObjects: {}
