@@ -14,7 +14,7 @@ public class DebugTools : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!debugged) {
+        if (debugged) {
             createDebugView();
         }
     }
