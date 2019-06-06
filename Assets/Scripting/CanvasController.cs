@@ -10,11 +10,17 @@ public class CanvasController : MonoBehaviour {
     int dice1;
     int dice2;
     public Texture[] textures = new Texture[7];
+    public GameObject[] tokens;
+    int indToken;
+    int indDice;
+    public GameObject selector;
 
     // Use this for initialization
     void Start() {
         diceGUI1 = GameObject.Find("DiceGUI1");
         diceGUI2 = GameObject.Find("DiceGUI2");
+        indToken = 0;
+        indDice = 0;
     }
 
     // Update is called once per frame
@@ -25,15 +31,45 @@ public class CanvasController : MonoBehaviour {
         diceGUI2.GetComponent<RawImage>().texture = textures[dice2];
     }
 
-    public void selectLeft() {
+    public void loadTokens(GameObject[] tokens) {
+        this.tokens = tokens;
 
+        if (!GameObject.Find("SelectParticle(Clone)")) {
+            Debug.Log("Creando particulas: ");
+            GameObject go = GameObject.Instantiate(selector);
+            go.transform.SetParent(tokens[indToken].transform);
+            go.transform.localPosition = Vector3.zero;
+        }
     }
-    public void selectRight() {
 
+    public void selectLeft() {
+        Destroy(GameObject.Find("SelectParticle(Clone)"));
+
+        indToken--;
+
+        if (indToken < 0) {
+            indToken = 3;
+        }
+
+        Debug.Log(indToken);
+    }
+
+    public void selectRight() {
+        Destroy(GameObject.Find("SelectParticle(Clone)"));
+
+        Debug.Log("last:  " + indToken);
+
+        indToken++;
+
+        if (indToken > 3) {
+            indToken = 0;
+        }
+
+        Debug.Log(indToken);
     }
 
     public int selectToken() {
-        return 0;
+        return indToken;
     }
 
     public void selectDiceRight() {
@@ -44,7 +80,7 @@ public class CanvasController : MonoBehaviour {
 
     }
 
-    public int selectDice(){
+    public int selectDice() {
         return 0;
     }
 }

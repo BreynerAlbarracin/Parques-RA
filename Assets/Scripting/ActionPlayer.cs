@@ -36,6 +36,7 @@ public class ActionPlayer : MonoBehaviour {
             throwDice();
 
             if (GameObject.Find("Dice1").GetComponent<Dice>().getValue() != 0 && GameObject.Find("Dice2").GetComponent<Dice>().getValue() != 0) {
+                GameObject.Find("UI").GetComponent<CanvasController>().loadTokens(tokens);
                 Debug.Log(this.name + " Select Token");
                 selecToken = true;
                 selectToken();
