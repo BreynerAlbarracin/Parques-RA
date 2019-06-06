@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour {
 
-    int value;
+    public int value;
 
     public void throwDice() {
         this.value = 0;

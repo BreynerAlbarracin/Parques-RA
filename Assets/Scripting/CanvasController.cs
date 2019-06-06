@@ -22,6 +22,29 @@ public class CanvasController : MonoBehaviour {
         dice1 = GameObject.Find("Dice1").GetComponent<Dice>().getValue();
         dice2 = GameObject.Find("Dice2").GetComponent<Dice>().getValue();
         diceGUI1.GetComponent<RawImage>().texture = textures[dice1];
-		diceGUI2.GetComponent<RawImage>().texture = textures[dice2];
+        diceGUI2.GetComponent<RawImage>().texture = textures[dice2];
+    }
+
+    public void selectLeft() {
+
+    }
+    public void selectRight() {
+
+    }
+
+    public int selectToken() {
+        return 0;
+    }
+
+    public void selectDiceRight() {
+
+    }
+
+    public void selectDiceLeft() {
+
+    }
+
+    public int selectDice(){
+        return 0;
     }
 }
