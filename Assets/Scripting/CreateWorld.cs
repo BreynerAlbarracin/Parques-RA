@@ -16,28 +16,19 @@ public class CreateWorld : MonoBehaviour {
       3 | 4
     */
 
-    // Debug mode
-    public bool debug = false;
-
-    //Amount nodes in each houses
+    // Colors to use
     string[] colors = new string[] { "Blue", "Red", "Green", "Yellow" };
-    int cantStais = 7;
-    int cantCurve = 8;
-    int cantAsc = 5;
-    int cantDes = 4;
 
     // Position by fixed elements
     Vector3 handsP = new Vector3(10.7f, 9.8f, 10.65f);
     Vector3 witcherP = new Vector3(7.1f, 5.8f, 7.1f);
-    Vector3 prisonP = new Vector3(8.95f, 5.13f, 8.6f);
+    Vector3 prisonP = new Vector3(9f, 5.13f, 8.76f);
     Vector3 crownP = new Vector3(3.8f, 9.22f, 0f);
     Vector3 start = new Vector3(11.8f, 1.5f, 0f);
 
     // Reference to mesh nodes
     NodeMesh nodemesh;
     Transform nodes;
-
-    // Defauld Log Debug.Log("CreateWorld.");
 
     // Use this for initialization
     void Start() {
@@ -51,13 +42,7 @@ public class CreateWorld : MonoBehaviour {
         createWitchers();
         createCrowns();
         createNodes();
-        // createGameObjectsNode();
-        // createTokens();
-
-        if (debug) {
-            Debug.Log("Run debug task");
-            createDebugView();
-        }
+        createTokens();
     }
 
     // Update is called once per frame
@@ -65,15 +50,25 @@ public class CreateWorld : MonoBehaviour {
 
     }
 
+    // This method allow create the hands GameObject
     void createHands() {
         Debug.Log("Creating hands nodes");
         Vector3[] vectors = createMirrorVectors(handsP);
         GameObject[] hands = new GameObject[4];
+        Transform players = GameObject.Find("Players").transform;
 
-        hands[0] = createEGO("HandsBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, nodes);
-        hands[1] = createEGO("HandsRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, nodes);
-        hands[2] = createEGO("HandsGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, nodes);
-        hands[3] = createEGO("HandsYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, nodes);
+        hands[0] = createEGO("HandsBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, players);
+        hands[0].AddComponent<ControlPlayers>();
+        hands[0].AddComponent<ActionPlayer>();
+        hands[1] = createEGO("HandsRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, players);
+        hands[1].AddComponent<ControlPlayers>();
+        hands[1].AddComponent<ActionPlayer>();
+        hands[2] = createEGO("HandsGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, players);
+        hands[2].AddComponent<ControlPlayers>();
+        hands[2].AddComponent<ActionPlayer>();
+        hands[3] = createEGO("HandsYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, players);
+        hands[3].AddComponent<ControlPlayers>();
+        hands[3].AddComponent<ActionPlayer>();
 
         nodemesh.crowns = hands;
     }
@@ -81,7 +76,7 @@ public class CreateWorld : MonoBehaviour {
     // This method create a prison positions
     void createPrisons() {
         Debug.Log("Creating prisons nodes");
-        Vector3[] vectors = createMirrorVectors(prisonP);
+        Vector3[] vectors = createRotationVector(prisonP);
         GameObject[] prisons = new GameObject[4];
 
         prisons[0] = createEGO("PrisonBlue", vectors[0], new Vector3(0f, 225f, 0), colors[0], false, false, nodes);
@@ -92,6 +87,7 @@ public class CreateWorld : MonoBehaviour {
         nodemesh.prisons = prisons;
     }
 
+    // This method allow create the witchers GameObject
     void createWitchers() {
         Debug.Log("Creating witchers nodes");
         Vector3[] vectors = createMirrorVectors(witcherP);
@@ -118,7 +114,6 @@ public class CreateWorld : MonoBehaviour {
 
         nodemesh.crowns = crowns;
     }
-
 
     // This methid create a board nodes
     void createNodes() {
@@ -281,57 +276,6 @@ public class CreateWorld : MonoBehaviour {
         return vectors;
     }
 
-    // // This method create empty GameObjects in the nodes positions
-    // void createGameObjectsNode() {
-    //     Debug.Log("Creating empty GameObjects according to nodes");
-
-    //     float angule = 225;
-    //     Debug.Log("Creating fixed nodes (Hands and Witchers)");
-    //     for (int i = 0; i < 4; i++) {
-    //         GameObject hand = createEGO("Hands-" + colors[i], nodemesh.hands[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[0], false, false, nodes);
-    //         GameObject witcher = createEGO("Witcher-" + colors[i], nodemesh.witchers[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[1], false, false, nodes);
-    //         GameObject prison = createEGO("Prison-" + colors[i], nodemesh.prisons[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[2], false, false, nodes);
-    //         GameObject crown = createEGO("Crown-" + colors[i], nodemesh.crowns[i].GetComponent<Node>().getPosition(), new Vector3(0, angule, 0), colors[3], false, false, nodes);
-    //         angule -= 90;
-
-    //         Debug.Log(i);
-    //     }
-
-    //     Debug.Log("Creating empty GameObject nodes and extranodes position");
-    //     GameObject node = nodemesh.rootNodes;
-
-    //     int count = 1;
-    //     while (true) {
-    //         bool finish = false;
-    //         if (nodemesh.isLap(node.nextNode)) {
-    //             finish = true;
-    //         }
-    //         GameObject nodeGO = createEGO("Node: " + node.color + count, node.position, node.rotation, nodes.transform);
-    //         if (node.extraNode != null) {
-    //             Debug.Log("Creating Extra Nodes");
-    //             Node extra = node.extraNode;
-    //             while (true) {
-    //                 bool finish2 = false;
-    //                 if (extra.nextNode == null) {
-    //                     finish2 = true;
-    //                 }
-    //                 GameObject nodeGOEX = createEGO("NodeExtra: " + extra.color + "-" + count, extra.position, extra.rotation, nodes.transform);
-    //                 extra = extra.nextNode;
-    //                 if (finish2) {
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         node = node.nextNode;
-    //         count++;
-    //         Debug.Log(count);
-    //         if (finish) {
-    //             Debug.Log("Stopping method to create EGB");
-    //             break;
-    //         }
-    //     }
-    // }
-
     // This methos allow create a empty GameObject
     GameObject createEGO(string name, Vector3 position, Vector3 rotation, string color, bool secure, bool exit, Transform parent) {
         GameObject gObject = new GameObject();
@@ -350,80 +294,45 @@ public class CreateWorld : MonoBehaviour {
         return gObject;
     }
 
+    // This method allow create tokens into the prisons
     void createTokens() {
         Debug.Log("Creating tokens");
-        GameObject prisonB = GameObject.Find("Prison-Blue");
-        GameObject prisonR = GameObject.Find("Prison-Red");
-        GameObject prisonG = GameObject.Find("Prison-Green");
-        GameObject prisonY = GameObject.Find("Prison-Yellow");
+        GameObject prisonB = GameObject.Find("PrisonBlue");
+        GameObject prisonR = GameObject.Find("PrisonRed");
+        GameObject prisonG = GameObject.Find("PrisonGreen");
+        GameObject prisonY = GameObject.Find("PrisonYellow");
 
         for (int i = 0; i < 4; i++) {
-            GameObject tokenB = createToken(colors[0] + (i + 1), prisonB.GetComponent<Node>(), colors[0], "", prisonB.transform);
-            GameObject tokenR = createToken(colors[1] + (i + 1), prisonR.GetComponent<Node>(), colors[1], "", prisonR.transform);
-            GameObject tokenG = createToken(colors[2] + (i + 1), prisonG.GetComponent<Node>(), colors[2], "", prisonG.transform);
-            GameObject tokenY = createToken(colors[3] + (i + 1), prisonY.GetComponent<Node>(), colors[3], "", prisonY.transform);
-
+            GameObject tokenB = createToken("Token" + colors[0] + (i + 1), prisonB.GetComponent<Node>(), colors[0], "", prisonB.transform);
+            prisonB.GetComponent<Node>().addPrisonToken(tokenB);
+            GameObject tokenR = createToken("Token" + colors[1] + (i + 1), prisonR.GetComponent<Node>(), colors[1], "", prisonR.transform);
+            prisonR.GetComponent<Node>().addPrisonToken(tokenR);
+            GameObject tokenG = createToken("Token" + colors[2] + (i + 1), prisonG.GetComponent<Node>(), colors[2], "", prisonG.transform);
+            prisonG.GetComponent<Node>().addPrisonToken(tokenG);
+            GameObject tokenY = createToken("Token" + colors[3] + (i + 1), prisonY.GetComponent<Node>(), colors[3], "", prisonY.transform);
+            prisonY.GetComponent<Node>().addPrisonToken(tokenY);
             Debug.Log(i);
         }
     }
 
+    // This method create a token to play
     GameObject createToken(string name, Node node, string color, string model, Transform parent) {
-        GameObject token = new GameObject();
-        token.name = name;
-        token.AddComponent(typeof(Token));
-
-        Token data = token.GetComponent<Token>();
-        data.color = color;
-        // data.nodeAttach = node;
-        data.model = model;
-
+        GameObject token = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         token.transform.SetParent(parent);
         token.transform.Rotate(new Vector3());
         token.transform.Translate(new Vector3());
+        token.transform.localScale = new Vector3(0.53f, 0.53f, 0.53f);
+        token.name = name;
+        token.GetComponent<Renderer>().material.color = Color.black;
+
+        token.AddComponent(typeof(Token));
+        Token data = token.GetComponent<Token>();
+
+        data.color = color;
+        data.model = model;
 
         return token;
     }
-
-
-
-
-    /* 
-    --------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------
-    ---------------------------------DEBUG ZONE-------------------------------------------------
-    --------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------
-    */
-
-    // This method contains debug tasks only executable if debug is True
-    void createDebugView() {
-        Debug.Log("DEBUG PROJECT MODE ON, EXECUTING DEBUG TASK");
-
-        GameObject.Find("MallaTestVisual").SetActive(false);
-        GameObject.Find("Terrain").SetActive(false);
-
-        GameObject camera = GameObject.Find("Camera");
-        camera.transform.position = new Vector3(0f, 30f, 0);
-        camera.transform.Rotate(new Vector3(90f, 0f, 0f));
-
-        GameObject debugMesh = new GameObject();
-        debugMesh.name = "DebugMesh";
-        debugMesh.transform.SetParent(GameObject.Find("Root").transform);
-
-        Debug.Log("Creation debug fixed objects");
-
-        foreach (Transform child in GameObject.Find("Nodes").transform) {
-            GameObject debugOBJ = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            debugOBJ.transform.SetParent(child);
-            debugOBJ.name = "debugBox";
-            debugOBJ.transform.localPosition = new Vector3(0, 0, 0);
-            debugOBJ.transform.localRotation = new Quaternion(0, 0, 0, 0);
-            debugOBJ.transform.localScale = new Vector3(3.95f, 0.04f, 0.97f);
-        }
-    }
-
 }
 
 

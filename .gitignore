@@ -9,6 +9,7 @@
 [Oo]bj/
 [Tt]emp/
 [Uu]nityGenerated/
+[Ll]eapMotion/
 # file on crash reports
 sysinfo.txt
 # Unity3D generated meta files
@@ -40,3 +41,8 @@ sysinfo.txt
 Icon?
 ehthumbs.db
 Thumbs.db
+
+###
+# Other Files
+###
+LeapMotion.meta

@@ -7,14 +7,18 @@ public class Node : MonoBehaviour {
     public Vector3 rotation;
     public GameObject nextNode;
     public GameObject extraNode;
-    public List<GameObject> tokens;
+    public List<GameObject> tokens = new List<GameObject>();
     public string color;
     public bool secure;
     public bool exit;
 
     //Reference of measurements game
     public float widthNode = 0.6f;
-    public float heightToken = 12f;
+    public float heightToken = 0.5f;
+
+    void Start() {
+        tokens = new List<GameObject>();
+    }
 
     public void attachNode(GameObject node) {
         this.nextNode = node;
@@ -29,7 +33,7 @@ public class Node : MonoBehaviour {
         this.transform.Rotate(rotation);
     }
 
-    public Quaternion gerRotation(){
+    public Quaternion getRotation() {
         return this.transform.rotation;
     }
 
@@ -37,7 +41,7 @@ public class Node : MonoBehaviour {
         this.position = translation;
         this.transform.Translate(position);
     }
-    public Vector3 getPosition(){
+    public Vector3 getPosition() {
         return this.transform.position;
     }
 
@@ -61,27 +65,38 @@ public class Node : MonoBehaviour {
         return extraNode;
     }
 
+    public void addToken(GameObject token) {
+        tokens.Add(token);
+        organizeTokens();
+    }
+
+    public void addPrisonToken(GameObject token) {
+        tokens.Add(token);
+
+        organizePrisionTokens();
+    }
+
     public void organizeTokens() {
-        int cantToken = tokens.Count;
-        float space = widthNode / (cantToken + 1);
+        float space = widthNode / (tokens.Count + 1);
 
         int pos = 1;
         foreach (GameObject token in tokens) {
-            token.transform.Translate(new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0));
+            token.transform.localPosition = new Vector3((space * pos) - (widthNode / 2), this.heightToken, 0);
             pos++;
         }
     }
 
     public void organizePrisionTokens() {
         Vector3[] positionsPrison = new Vector3[] {
-            new Vector3(0.44f, heightToken, -0.3f),
-            new Vector3(0.16f, heightToken, 0.05f),
-            new Vector3(-0.16f, heightToken, 0.05f),
-            new Vector3(-0.44f, heightToken, -0.3f)};
+            new Vector3(1.68f, heightToken, 0f),
+            new Vector3(0.55f, heightToken, 0.21f),
+            new Vector3(-0.665f, heightToken, 0.116f),
+            new Vector3(-1.78f, heightToken, -0.3f)};
 
         int pos = 0;
         foreach (GameObject token in tokens) {
-            token.transform.Translate(positionsPrison[pos]);
+            token.transform.localPosition = new Vector3(0, 0, 0);
+            token.transform.localPosition = positionsPrison[pos];
             pos++;
         }
     }
