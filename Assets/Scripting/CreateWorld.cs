@@ -55,11 +55,20 @@ public class CreateWorld : MonoBehaviour {
         Debug.Log("Creating hands nodes");
         Vector3[] vectors = createMirrorVectors(handsP);
         GameObject[] hands = new GameObject[4];
+        Transform players = GameObject.Find("Players").transform;
 
-        hands[0] = createEGO("HandsBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, nodes);
-        hands[1] = createEGO("HandsRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, nodes);
-        hands[2] = createEGO("HandsGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, nodes);
-        hands[3] = createEGO("HandsYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, nodes);
+        hands[0] = createEGO("HandsBlue", vectors[0], new Vector3(0f, 225f, 0f), colors[0], false, false, players);
+        hands[0].AddComponent<ControlPlayers>();
+        hands[0].AddComponent<ActionPlayer>();
+        hands[1] = createEGO("HandsRed", vectors[1], new Vector3(0f, 135f, 0f), colors[1], false, false, players);
+        hands[1].AddComponent<ControlPlayers>();
+        hands[1].AddComponent<ActionPlayer>();
+        hands[2] = createEGO("HandsGreen", vectors[2], new Vector3(0f, 45f, 0f), colors[2], false, false, players);
+        hands[2].AddComponent<ControlPlayers>();
+        hands[2].AddComponent<ActionPlayer>();
+        hands[3] = createEGO("HandsYellow", vectors[3], new Vector3(0f, 315f, 0f), colors[3], false, false, players);
+        hands[3].AddComponent<ControlPlayers>();
+        hands[3].AddComponent<ActionPlayer>();
 
         nodemesh.crowns = hands;
     }

@@ -6,20 +6,17 @@ public class DiceTable : MonoBehaviour {
 
     Vector3 dice1Velocity;
     Vector3 dice2Velocity;
-    GameObject cameraGame;
     GameObject diceGO1;
     GameObject diceGO2;
 
     // Use this for initialization
     void Start() {
-        cameraGame = GameObject.Find("Camera");
         diceGO1 = GameObject.Find("Dice1");
         diceGO2 = GameObject.Find("Dice2");
     }
 
     // Update is called once per frame
     void Update() {
-
     }
 
     void OnTriggerStay(Collider obj) {

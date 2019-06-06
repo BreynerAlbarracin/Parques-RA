@@ -1,0 +1,199 @@
+fileFormatVersion: 2
+guid: 2d7a28447958aed4e80161418a3559aa
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Camera
+    100002: Camino
+    100004: Camino.001
+    100006: Camino.002
+    100008: Camino.003
+    100010: Carcel.000
+    100012: Carcel.001
+    100014: Carcel.002
+    100016: Carcel.003
+    100018: Centro
+    100020: Cylinder
+    100022: Escalera.000
+    100024: Escalera.001
+    100026: Escalera.002
+    100028: Escalera.003
+    100030: EspPersonaje
+    100032: EspPersonaje.001
+    100034: EspPersonaje.002
+    100036: EspPersonaje.003
+    100038: Sun
+    100040: //RootNode
+    400000: Camera
+    400002: Camino
+    400004: Camino.001
+    400006: Camino.002
+    400008: Camino.003
+    400010: Carcel.000
+    400012: Carcel.001
+    400014: Carcel.002
+    400016: Carcel.003
+    400018: Centro
+    400020: Cylinder
+    400022: Escalera.000
+    400024: Escalera.001
+    400026: Escalera.002
+    400028: Escalera.003
+    400030: EspPersonaje
+    400032: EspPersonaje.001
+    400034: EspPersonaje.002
+    400036: EspPersonaje.003
+    400038: Sun
+    400040: //RootNode
+    2000000: Camera
+    2100000: No Name
+    2100002: Material.016
+    2100004: Material.010
+    2100006: Material.008
+    2100008: Material.007
+    2100010: Material.009
+    2100012: Material.006
+    2100014: Material.005
+    2100016: Material.012
+    2100018: Material.004
+    2100020: Material.003
+    2100022: Material.011
+    2100024: Material.014
+    2100026: Material.015
+    2300000: Camino
+    2300002: Camino.001
+    2300004: Camino.002
+    2300006: Camino.003
+    2300008: Carcel.000
+    2300010: Carcel.001
+    2300012: Carcel.002
+    2300014: Carcel.003
+    2300016: Centro
+    2300018: Cylinder
+    2300020: Escalera.000
+    2300022: Escalera.001
+    2300024: Escalera.002
+    2300026: Escalera.003
+    2300028: EspPersonaje
+    2300030: EspPersonaje.001
+    2300032: EspPersonaje.002
+    2300034: EspPersonaje.003
+    3300000: Camino
+    3300002: Camino.001
+    3300004: Camino.002
+    3300006: Camino.003
+    3300008: Carcel.000
+    3300010: Carcel.001
+    3300012: Carcel.002
+    3300014: Carcel.003
+    3300016: Centro
+    3300018: Cylinder
+    3300020: Escalera.000
+    3300022: Escalera.001
+    3300024: Escalera.002
+    3300026: Escalera.003
+    3300028: EspPersonaje
+    3300030: EspPersonaje.001
+    3300032: EspPersonaje.002
+    3300034: EspPersonaje.003
+    4300000: Cylinder
+    4300002: Centro
+    4300004: EspPersonaje
+    4300006: Camino
+    4300008: Camino.001
+    4300010: Carcel.001
+    4300012: Escalera.001
+    4300014: EspPersonaje.001
+    4300016: Carcel.002
+    4300018: Escalera.002
+    4300020: EspPersonaje.002
+    4300022: Camino.003
+    4300024: Carcel.003
+    4300026: Escalera.003
+    4300028: EspPersonaje.003
+    4300030: Escalera.000
+    4300032: Camino.002
+    4300034: Carcel.000
+    10800000: Sun
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
