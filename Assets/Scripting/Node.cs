@@ -70,9 +70,12 @@ public class Node : MonoBehaviour {
         organizeTokens();
     }
 
+    public void detachToken(GameObject token){
+        tokens.Remove(token);
+    }
+
     public void addPrisonToken(GameObject token) {
         tokens.Add(token);
-
         organizePrisionTokens();
     }
 
